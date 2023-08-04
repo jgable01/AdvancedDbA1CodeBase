@@ -17,7 +17,7 @@
             {
                 if (value < -10)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Quantity can't be less than -10.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Quantity can't be less than -10. Current quantity is " + _quantity); // Set to -10 to allow for minimal backorders, but not unlimited backorders
                 }
                 _quantity = value;
             }

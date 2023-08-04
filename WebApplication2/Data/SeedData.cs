@@ -5,7 +5,7 @@ using System.Linq;
 using WebApplication2.Data;
 using WebApplication2.Models;
 
-public static class SeedData 
+public static class SeedData
 {
     public static void Initialize(IServiceProvider serviceProvider) // I used chatGPT as a reference for this, but I did not copy and paste the code and provided comments to show my understanding of the code
     {
@@ -52,9 +52,13 @@ public static class SeedData
     {
         Laptop[] laptops = new Laptop[]
         {
-        new Laptop { Model = "Laptop1", Price = 1000, Quantity = 10, Condition = LaptopCondition.New, Brand = brands[0] },
-        new Laptop { Model = "Laptop 2", Price = 2000, Quantity = 20, Condition = LaptopCondition.Refurbished, Brand = brands[1] },
-        new Laptop { Model = "Laptop 3", Price = 3000, Quantity = 30, Condition = LaptopCondition.Rental, Brand = brands[2] }
+        new Laptop { Model = "Laptop1", Price = 1000,  Condition = LaptopCondition.New, Brand = brands[0] },
+        new Laptop { Model = "Laptop 2", Price = 2000, Condition = LaptopCondition.Refurbished, Brand = brands[1] },
+        new Laptop { Model = "Laptop 3", Price = 3000, Condition = LaptopCondition.Rental, Brand = brands[2] },
+        new Laptop { Model = "Laptop 4", Price = 4000, Condition = LaptopCondition.New, Brand = brands[0] },
+        new Laptop { Model = "Laptop 5", Price = 5000, Condition = LaptopCondition.Refurbished, Brand = brands[1] },
+        new Laptop { Model = "Laptop 6", Price = 6000, Condition = LaptopCondition.Rental, Brand = brands[2] },
+        new Laptop { Model = "Laptop 7", Price = 7000, Condition = LaptopCondition.New, Brand = brands[0] },
         };
 
         context.Laptops.AddRange(laptops);
@@ -84,7 +88,11 @@ public static class SeedData
         {
         new StoreLaptop { Store = stores[0], Laptop = laptops[0], Quantity = 5 },
         new StoreLaptop { Store = stores[1], Laptop = laptops[1], Quantity = 10 },
-        new StoreLaptop { Store = stores[2], Laptop = laptops[2], Quantity = 15 }
+        new StoreLaptop { Store = stores[2], Laptop = laptops[2], Quantity = 15 },
+        new StoreLaptop { Store = stores[0], Laptop = laptops[3], Quantity = 20 },
+        new StoreLaptop { Store = stores[1], Laptop = laptops[4], Quantity = 25 },
+        new StoreLaptop { Store = stores[2], Laptop = laptops[5], Quantity = 30 },
+        new StoreLaptop { Store = stores[0], Laptop = laptops[6], Quantity = 35 },
         };
 
         context.StoreLaptops.AddRange(storeLaptops);

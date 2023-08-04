@@ -8,8 +8,6 @@ namespace WebApplication2.Models
 
         private string _model;
 
-        private int _quantity;
-
         public string Model
         {
             get => _model;
@@ -35,19 +33,6 @@ namespace WebApplication2.Models
                 }
 
                 _price = value;
-            }
-        }
-
-        public int Quantity
-        {
-            get => _quantity;
-            set
-            {
-                if (value < -10)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Quantity can't be less than -10.");
-                }
-                _quantity = value;
             }
         }
         

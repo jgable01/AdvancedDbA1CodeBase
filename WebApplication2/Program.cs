@@ -35,7 +35,7 @@ using (var serviceScope = app.Services.CreateScope()) // scope for the service p
 
 // Get all laptops, with optional query parameters -- I referenced stackoverflow for portions of this endpoint, but I did not copy and paste code and provided comments to show my understanding of the code
 app.MapGet("/laptops/search", async (AppDbContext context, decimal? priceAbove, decimal? priceBelow,
-    Guid? storeNumber, string? province, LaptopCondition? condition, int? brandId, string? searchPhrase) => 
+    Guid? storeNumber, string? province, LaptopCondition? condition, int? brandId, string? searchPhrase) =>
 {
     LaptopSearchRequest request = LaptopSearchRequest.Create(priceAbove, priceBelow, storeNumber, province, condition, brandId, searchPhrase); // Created laptopsearchrequest because we need to validate the request, this cleaned up the code a bit and made it easier to read
     IQueryable<Laptop> query = context.Laptops.Include(l => l.Brand);
@@ -43,7 +43,7 @@ app.MapGet("/laptops/search", async (AppDbContext context, decimal? priceAbove, 
     // Filter the query based on the request, if the request has a value for a property, filter the query by that property
     // This is a bit of a mess, but it's the best I could do without changing the request class and making it more complicated and less readable
 
-    if (request.PriceAbove.HasValue)
+    if (request.PriceAbove.HasValue) // Avoided curly braces because the if statement is only one line and it's easier to read without them
         query = query.Where(l => l.Price >= request.PriceAbove.Value);
     if (request.PriceBelow.HasValue)
         query = query.Where(l => l.Price <= request.PriceBelow.Value);
@@ -60,7 +60,7 @@ app.MapGet("/laptops/search", async (AppDbContext context, decimal? priceAbove, 
     {
         IQueryable<StoreLaptop> storeLaptopQuery = context.StoreLaptops.Where(sl => sl.Quantity > 0); // Changed this to a queryable because we need to add more where clauses to it
 
-        if (request.StoreNumber.HasValue) 
+        if (request.StoreNumber.HasValue)
             storeLaptopQuery = storeLaptopQuery.Where(sl => sl.Store.StoreNumber == request.StoreNumber.Value);
 
         if (!string.IsNullOrWhiteSpace(request.Province))
@@ -114,8 +114,10 @@ app.MapPost("/stores/{storeNumber}/{laptopId}/changeQuantity", async (AppDbConte
         .Where(sl => sl.Store.StoreNumber == storeNumber && sl.LaptopId == laptopId)
         .FirstOrDefaultAsync();
 
-    if (storeLaptop == null)
-        return Results.NotFound();
+    Laptop laptop = await context.Laptops.FindAsync(laptopId);
+
+    if (storeLaptop == null) { return Results.NotFound(); }
+
 
     storeLaptop.Quantity += amount;
     await context.SaveChangesAsync();
@@ -128,8 +130,7 @@ app.MapGet("/brands/{brandId}/averagePrice", async (AppDbContext context, int br
 {
     Brand brand = await context.Brands.FirstOrDefaultAsync(b => b.Id == brandId); // Changed this to a first or default because we only need one brand
 
-    if (brand == null)
-        return Results.NotFound();
+    if (brand == null) { return Results.NotFound(); }
 
     // Make sure to load the laptops for the specific brand
     await context.Entry(brand).Collection(b => b.Laptops).LoadAsync();
