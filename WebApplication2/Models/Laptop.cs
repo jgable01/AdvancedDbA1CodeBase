@@ -4,10 +4,12 @@ namespace WebApplication2.Models
 {
     public class Laptop
     {
-        public Guid Number { get; set; }
+        public Guid Id { get; set; } // This is the primary key. I re-named it from LaptopId to Id because it's the primary key for the table, and it's the default convention for Entity Framework to use Id as the primary key name.
 
         private string _model;
-        
+
+        private int _quantity;
+
         public string Model
         {
             get => _model;
@@ -17,8 +19,10 @@ namespace WebApplication2.Models
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "Laptop model name must be at least three characters in length.");
                 }
+                _model = value;
             }
         }
+
 
         private decimal _price;
 
@@ -31,6 +35,19 @@ namespace WebApplication2.Models
                 }
 
                 _price = value;
+            }
+        }
+
+        public int Quantity
+        {
+            get => _quantity;
+            set
+            {
+                if (value < -10)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Quantity can't be less than -10.");
+                }
+                _quantity = value;
             }
         }
         
